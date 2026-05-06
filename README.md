@@ -20,16 +20,6 @@
 - **about:blank opener** — loads masked content through an `about:blank` context to strip referrer and obscure origin
 - **Embed-based masking** — wraps destinations in iframe/embed layers to prevent direct URL exposure
 
-## Roadmap
-
-- [ ] Core masking engine
-- [ ] about:blank opener
-- [ ] Previous link history panel
-- [ ] Custom mask URL slugs
-- [ ] One-click copy for masked links
-- [ ] Expiring / single-use links
-- [ ] Flint dashboard integration
-
 ## Disclaimer
 
 flint.mask is intended for legitimate use cases such as link privacy, referrer stripping, and URL shortening/masking. Use responsibly.
