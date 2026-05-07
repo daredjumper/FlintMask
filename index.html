@@ -145,6 +145,7 @@
             font-weight: 600;
             letter-spacing: -0.02em;
             color: var(--text);
+            user-select: none;
         }
 
         .wordmark span {
@@ -460,6 +461,7 @@
             text-transform: uppercase;
             color: #333;
             margin-bottom: 14px;
+            user-select: none;
         }
 
         .setting-row {
@@ -477,6 +479,7 @@
         .setting-label {
             font-size: 0.82rem;
             color: #aaa;
+            user-select: none;
         }
 
         .setting-label small {
@@ -484,6 +487,7 @@
             font-size: 0.68rem;
             color: #333;
             margin-top: 2px;
+            user-select: none;
         }
 
 
@@ -573,6 +577,22 @@
         #cog-btn.active svg {
             transform: rotate(90deg);
         }
+
+        /* other */
+
+        .credit{
+            bottom: 2.5%;
+            left: 2%;
+            position: fixed;
+            color: var(--muted);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            font-size: 1.1rem;
+            user-select: none;
+        }
+        .credit b {
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -597,7 +617,7 @@
                 <small>Toggles Aristоtle Byраss (BETA)</small>
             </div>
             <label class="toggle">
-                <input type="checkbox" id="s-history" checked />
+                <input type="checkbox" id="s-aris" checked />
                 <div class="toggle-track"></div>
             </label>
         </div>
@@ -608,7 +628,7 @@
                 <small>Opens URL in mаsked аbout:blаnk</small>
             </div>
             <label class="toggle">
-                <input type="checkbox" id="s-newtab" />
+                <input type="checkbox" id="s-abtblank" />
                 <div class="toggle-track"></div>
             </label>
         </div>
@@ -633,7 +653,7 @@
 
         <div class="divider"></div>
 
-        <label class="field-label">Destiոation URL</label>
+        <label class="field-label" style="user-select: none;">Destiոation URL</label>
         <div class="input-wrap">
             <span class="input-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -653,22 +673,73 @@
             <button class="btn-secondary" onclick="loadPrevious()" id="prev-btn">↩ Previous</button>
         </div>
 
+        
+
     </div>
 
-    <embed href="about:blank" style="display: none;" id="frm" />
+    <div class="credit">
+        <span>Made by <b>fliոt.dev</b></span>
+    </div>
+
+    <embed src="about:blank" style="display: none;" id="frm" />
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
         const settings = {
-            history: true,
-            grid: true,
-            newtab: false,
+            aris: true,
+            aboutblank: false
         };
 
-        function applySettings() {
-            $('.grid-overlay').css('animation-play-state', settings.grid ? 'running' : 'paused');
+        // Load saved settings from localStorage
+        function loadSettings() {
+            const savedAris = localStorage.getItem('fm_aris');
+            const savedAbtBlank = localStorage.getItem('fm_aboutblank');
+
+            if (savedAris !== null) settings.aris = savedAris === 'true';
+            if (savedAbtBlank !== null) settings.aboutblank = savedAbtBlank === 'true';
+
+            // Apply to toggles
+            $('#s-aris').prop('checked', settings.aris);
+            $('#s-abtblank').prop('checked', settings.aboutblank);
         }
 
+        function applySettings() {
+            settings.aris = $("#s-aris").is(':checked');
+            settings.aboutblank = $("#s-abtblank").is(':checked');
+        }
+
+        $('#s-aris').on('change', function () {
+            settings.aris = $(this).is(':checked');
+            localStorage.setItem('fm_aris', settings.aris);
+        });
+
+        $('#s-abtblank').on('change', function () {
+            settings.aboutblank = $(this).is(':checked');
+            localStorage.setItem('fm_aboutblank', settings.aboutblank);
+        });
+
+        const metaList = [
+            { title: "Home | Schoology", favicon: "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico" },
+            { title: "Google Classroom", favicon: "https://ssl.gstatic.com/classroom/favicon.png" },
+            { title: "Google Docs", favicon: "https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" },
+            { title: "Google Slides", favicon: "https://ssl.gstatic.com/docs/presentations/images/favicon5.ico" },
+            { title: "Google Sheets", favicon: "https://ssl.gstatic.com/docs/spreadsheets/favicon3.ico" },
+            { title: "Google Drive", favicon: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" },
+            { title: "Google Forms", favicon: "https://ssl.gstatic.com/docs/forms/device_home/android_192.png" },
+            { title: "Khan Academy", favicon: "https://cdn.kastatic.org/images/favicon.ico" },
+            { title: "Quizlet", favicon: "https://quizlet.com/favicon.ico" },
+            { title: "Duolingo", favicon: "https://www.duolingo.com/favicon.ico" },
+            { title: "Desmos Graphing Calculator", favicon: "https://www.desmos.com/assets/img/icons/favicon.ico" },
+            { title: "Wikipedia", favicon: "https://www.wikipedia.org/favicon.ico" },
+            { title: "Newsela", favicon: "https://newsela.com/favicon.ico" },
+            { title: "CommonLit", favicon: "https://www.commonlit.org/favicon.ico" },
+            { title: "Clever | Portal", favicon: "https://clever.com/favicon.ico" },
+            { title: "Canva", favicon: "https://www.canva.com/favicon.ico" },
+            { title: "Edulastic", favicon: "https://edulastic.com/favicon.ico" },
+            { title: "IXL Math", favicon: "https://www.ixl.com/favicon.ico" },
+            { title: "Typing.com", favicon: "https://www.typing.com/favicon.ico" },
+            { title: "Code.org", favicon: "https://code.org/favicon.ico" },
+        ];
 
         // ── cog / panel toggle ──
         $('#cog-btn').on('click', function (e) {
@@ -685,14 +756,6 @@
             }
         });
 
-        // ── toggles ──
-        $('#s-history').on('change', function () { settings.history = $(this).is(':checked'); });
-        $('#s-grid').on('change', function () {
-            settings.grid = $(this).is(':checked');
-            applySettings();
-        });
-        $('#s-newtab').on('change', function () { settings.newtab = $(this).is(':checked'); });
-
         function showLoading(url) {
             $('#loader-url-text').text(url);
             $('#loading-overlay').addClass('visible');
@@ -705,30 +768,74 @@
             $('.btn-primary').prop('disabled', false).text('Go');
         }
 
+        function formatLink(link) {
+            let nlink = link;
+            if (!nlink.startsWith("https://") && !nlink.startsWith("http://")) {
+                nlink = "https://" + nlink;
+            }
+            if (!nlink.endsWith("/")) {
+                if (!nlink.endsWith(".html")) {
+                    nlink = nlink + "/";
+                }
+            }
+            return nlink;
+        }
+
         function loadEmbed(link) {
+            let fLink = formatLink(link);
+            if (settings.aris == true) {
+                fLink = fLink + "?https://securly.com"
+            }
+            if (settings.aboutblank) {
+                let newWin = window.open("about:blank");
+                if (newWin) {
+                    const random = metaList[Math.floor(Math.random() * metaList.length)];
+                    let code = `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>${random.title}</title>
+  <link rel="icon" href="${random.favicon}" />
+</head>
+<body style="background: #101010;">
+  <embed src="${fLink}" id="Educational" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; border: 0; outline: 0;"/>
+</body>
+</html>
+`;
+                    newWin.document.open();
+                    newWin.document.write(code);
+                    newWin.document.close();
+                    hideLoading();
+                }
+                return;
+            }
+
             $("#frm").css("display", "block");
-            $("#frm").attr("src", link);
-            localStorage.setItem('FLearning', link);
+            $("#frm").attr("src", fLink);
         }
 
         function handleGo() {
             const val = $('#urlInput').val().trim();
             if (!val) { $('#urlInput').focus(); return; }
 
-            localStorage.setItem('flint_last', val);
-            showLoading(val);
+            better = formatLink(val);
+            localStorage.setItem('FLearning', better);
+            showLoading(better);
 
-            loadEmbed(val)
+            loadEmbed(val);
         }
 
 
         function loadPrevious() {
             const prev = localStorage.getItem('FLearning');
             if (prev) $('#urlInput').val(prev);
-            handleGo();
+            showLoading(prev);
+
+            loadEmbed(prev);
         }
 
         $(document).ready(function () {
+            loadSettings();
             $('#urlInput').on('keydown', function (e) {
                 if (e.key === 'Enter') handleGo();
             });
@@ -736,5 +843,7 @@
     </script>
 
 </body>
+
+</html>
 
 </html>
